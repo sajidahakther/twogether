@@ -52,7 +52,7 @@ export const TaskList = ({ title }: TaskListProps) => {
     };
 
     fetchTasks();
-  }, []);
+  }, [tasksCollection]);
 
   const addTask = useCallback(async () => {
     if (newTask.trim()) {
@@ -62,7 +62,7 @@ export const TaskList = ({ title }: TaskListProps) => {
       setTasks((prevTasks) => [{ ...taskData, id: docRef.id }, ...prevTasks]);
       setNewTask("");
     }
-  }, [newTask]);
+  }, [newTask, tasksCollection]);
 
   const toggleTask = useCallback(
     async (index: number) => {
