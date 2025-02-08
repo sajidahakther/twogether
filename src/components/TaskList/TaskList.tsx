@@ -1,4 +1,4 @@
-import { db } from "@/app/firebase";
+import { db } from "@/firebase";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
