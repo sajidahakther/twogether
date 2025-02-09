@@ -75,7 +75,12 @@ export const TaskList = ({ title }: TaskListProps) => {
 
   const addTask = useCallback(async () => {
     if (newTask.trim() && userId) {
-      const taskData = { text: newTask, completed: false, isEditing: false, userId };
+      const taskData = {
+        text: newTask,
+        completed: false,
+        isEditing: false,
+        userId,
+      };
       const docRef = await addDoc(tasksCollection, taskData);
 
       setTasks((prevTasks) => [{ ...taskData, id: docRef.id }, ...prevTasks]);
@@ -94,15 +99,17 @@ export const TaskList = ({ title }: TaskListProps) => {
       setTasks((prevTasks) =>
         prevTasks
           .map((t, i) => (i === index ? { ...t, completed: !t.completed } : t))
-          .sort((a, b) => (a.completed ? 1 : -1) - (b.completed ? 1 : -1))
+          .sort((a, b) => (a.completed ? 1 : -1) - (b.completed ? 1 : -1)),
       );
     },
-    [tasks]
+    [tasks],
   );
 
   const deleteTask = useCallback(
     async (index: number) => {
-      const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this item?",
+      );
       if (confirmDelete) {
         const task = tasks[index];
         if (!task.id) return;
@@ -113,7 +120,7 @@ export const TaskList = ({ title }: TaskListProps) => {
         setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
       }
     },
-    [tasks]
+    [tasks],
   );
 
   const handleSaveTask = useCallback(
@@ -126,11 +133,11 @@ export const TaskList = ({ title }: TaskListProps) => {
 
       setTasks((prevTasks) =>
         prevTasks.map((t, i) =>
-          i === index ? { ...t, text: newText, isEditing: false } : t
-        )
+          i === index ? { ...t, text: newText, isEditing: false } : t,
+        ),
       );
     },
-    [tasks]
+    [tasks],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
@@ -139,15 +146,18 @@ export const TaskList = ({ title }: TaskListProps) => {
     }
   };
 
-  const handleBlur = (index: number, e: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = (
+    index: number,
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
+  ) => {
     handleSaveTask(index, e.target.value);
   };
 
   const handleStartEditing = (index: number) => {
     setTasks((prevTasks) =>
       prevTasks.map((task, i) =>
-        i === index ? { ...task, isEditing: true } : task
-      )
+        i === index ? { ...task, isEditing: true } : task,
+      ),
     );
   };
 
@@ -220,8 +230,8 @@ export const TaskList = ({ title }: TaskListProps) => {
                   onChange={(e) =>
                     setTasks((prevTasks) =>
                       prevTasks.map((t, i) =>
-                        i === index ? { ...t, text: e.target.value } : t
-                      )
+                        i === index ? { ...t, text: e.target.value } : t,
+                      ),
                     )
                   }
                   onKeyDown={(e) => handleKeyDown(e, index)}

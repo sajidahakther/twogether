@@ -1,7 +1,19 @@
-"use client"
+"use client";
 import { auth } from "@/firebase";
-import { useEffect, useState, useContext, createContext, ReactNode } from "react";
-import { onAuthStateChanged, User, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import {
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+  createContext,
+} from "react";
+import {
+  User,
+  signOut,
+  signInWithPopup,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+} from "firebase/auth";
 
 interface AuthContextType {
   loading: boolean;
