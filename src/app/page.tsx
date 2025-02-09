@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
@@ -18,7 +19,16 @@ export default function Home() {
   if (loading) return <p>Loading...</p>;
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4">Welcome, {user?.displayName}!</h1>
+      <h1 className="text-xl font-bold mb-4">Welcome, {user?.displayName}!</h1>
+      {user?.photoURL && (
+        <Image
+          width={80}
+          height={80}
+          alt="profile image"
+          src={user?.photoURL}
+          style={{ borderRadius: "100%" }}
+        />
+      )}
       <button
         onClick={logout}
         className="bg-red-500 text-white py-2 px-4 rounded shadow hover:bg-red-600 transition"
