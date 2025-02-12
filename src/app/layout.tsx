@@ -1,16 +1,36 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { AuthProvider } from "@/hooks/useAuth";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const apercuRegular = localFont({
+  src: [
+    {
+      path: "./fonts/apercu-regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const apercuBold = localFont({
+  src: [
+    {
+      path: "./fonts/apercu-bold.otf",
+      weight: "700",
+      style: "bold",
+    },
+  ],
+});
+
+const nimbus = localFont({
+  src: [
+    {
+      path: "./fonts/tan-nimbus.otf",
+      weight: "700",
+      style: "bold",
+    },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${(nimbus.className, apercuBold.className, apercuRegular.className)}`}
       >
         <AuthProvider>{children}</AuthProvider>
       </body>
