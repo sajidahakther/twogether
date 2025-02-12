@@ -21,13 +21,15 @@ export default function Login() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="bg-stone h-screen py-[50px]">
-      <ShapeCurls />
-      <Carousel />
-      <ShapeAsterisk />
-      <div className="flex flex-col gap-5 items-center">
-        <Button onClick={signInWithGoogle} label="Log In" variant="outline" />
-        <Button onClick={signInWithGoogle} label="Sign Up" variant="filled" />
+    <div className="bg-beige flex flex-col items-center">
+      <div className="max-w-[430px] flex flex-col bg-stone h-screen md:h-full pb-[50px] justify-center">
+        <ShapeCurls />
+        <Carousel />
+        <ShapeAsterisk />
+        <div className="flex flex-col gap-5 items-center">
+          <Button onClick={signInWithGoogle} label="Log In" variant="outline" />
+          <Button onClick={signInWithGoogle} label="Sign Up" variant="filled" />
+        </div>
       </div>
     </div>
   );
