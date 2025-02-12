@@ -1,0 +1,11 @@
+.button {
+  @apply w-[200px] h-[54px] font-apercuBold text-base uppercase rounded-full;
+
+  &.outline {
+    @apply text-primary border-2 border-primary;
+  }
+
+  &:not(.outline) {
+    @apply text-white bg-primary;
+  }
+}

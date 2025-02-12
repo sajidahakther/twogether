@@ -6,7 +6,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 const apercuRegular = localFont({
   src: [
     {
-      path: "./fonts/apercu-regular.otf",
+      path: "./assets/fonts/apercu-regular.otf",
       weight: "400",
       style: "normal",
     },
@@ -16,7 +16,7 @@ const apercuRegular = localFont({
 const apercuBold = localFont({
   src: [
     {
-      path: "./fonts/apercu-bold.otf",
+      path: "./assets/fonts/apercu-bold.otf",
       weight: "700",
       style: "bold",
     },
@@ -26,7 +26,7 @@ const apercuBold = localFont({
 const nimbus = localFont({
   src: [
     {
-      path: "./fonts/tan-nimbus.otf",
+      path: "./assets/fonts/tan-nimbus.otf",
       weight: "700",
       style: "bold",
     },

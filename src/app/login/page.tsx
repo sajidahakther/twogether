@@ -3,6 +3,10 @@
 import React, { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/Button";
+import ShapeCurls from "@/app/assets/images/ShapeCurls";
+import ShapeAsterisk from "@/app/assets/images/ShapeAsterisk";
+import { Carousel } from "@/components/Carousel";
 
 export default function Login() {
   const { user, signInWithGoogle, loading } = useAuth();
@@ -17,15 +21,13 @@ export default function Login() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96 text-center">
-        <h2 className="text-2xl font-bold mb-4">Sign in with Google</h2>
-        <button
-          onClick={signInWithGoogle}
-          className="w-full bg-red-500 text-white py-2 rounded shadow hover:bg-red-600 transition"
-        >
-          Continue with Google
-        </button>
+    <div className="bg-stone h-screen py-[50px]">
+      <ShapeCurls />
+      <Carousel />
+      <ShapeAsterisk />
+      <div className="flex flex-col gap-5 items-center">
+        <Button onClick={signInWithGoogle} label="Log In" variant="outline" />
+        <Button onClick={signInWithGoogle} label="Sign Up" variant="filled" />
       </div>
     </div>
   );
