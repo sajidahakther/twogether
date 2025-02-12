@@ -35,7 +35,7 @@ const nimbus = localFont({
 
 export const metadata: Metadata = {
   title: "Twogether",
-  description: "Getting things done, twogether.",
+  description: "Getting things done, together.",
 };
 
 export default function RootLayout({
@@ -45,6 +45,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#000000" />
+      </head>
       <body
         className={`${(nimbus.className, apercuBold.className, apercuRegular.className)}`}
       >
