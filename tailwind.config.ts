@@ -17,6 +17,7 @@ export default {
         white: "#FFFFFF",
         stone: "#F6F4F0",
         beige: "#E7DCC8",
+        error: "#A22B00",
       },
       fontFamily: {
         apercu: ['"ApercuRegular"', "sans-serif"],

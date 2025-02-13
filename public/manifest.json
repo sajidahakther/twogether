@@ -4,8 +4,8 @@
   "description": "Getting things done, together.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#f6f4f0",
+  "theme_color": "#f6f4f0",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",

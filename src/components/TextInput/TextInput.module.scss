@@ -1,0 +1,7 @@
+.label {
+  @apply text-black text-base;
+}
+
+.input {
+  @apply text-base pl-3 w-full mt-2 p-2 border border-grey bg-transparent rounded-lg placeholder:text-grey focus:outline-secondary;
+}
