@@ -27,8 +27,10 @@ export const Layout = ({
         showNavigation={showMenu}
         onNavigation={toggleNavigation}
       />
+      {isNavigationOpen && (
+        <div className={styles.overlay} onClick={toggleNavigation} />
+      )}
       <div className={styles.content}>{children}</div>
-
       <Navigation
         onClose={toggleNavigation}
         isNavigationOpen={isNavigationOpen}
