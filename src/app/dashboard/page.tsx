@@ -8,7 +8,7 @@ import { Layout } from "@/components/Layout";
 import { TaskList } from "@/components/TaskList";
 
 export default function Dashboard() {
-  const { user, logout, loading } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Dashboard() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <Layout>
+    <Layout showMenu>
       <div className="flex justify-between">
         <h1 className="text-2xl font-nimbus mb-4 text-primary">
           Hello, {user?.displayName}.
@@ -36,13 +36,6 @@ export default function Dashboard() {
           />
         )}
       </div>
-      <button
-        onClick={logout}
-        className="bg-red-500 text-white py-2 px-4 rounded shadow hover:bg-red-600 transition"
-      >
-        Logout
-      </button>
-
       <TaskList title="Groceries List" />
     </Layout>
   );

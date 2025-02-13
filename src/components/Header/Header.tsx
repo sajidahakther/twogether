@@ -8,22 +8,34 @@ import HamburgerMenu from "@/app/assets/images/HamburgerMenu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 type HeaderProps = {
-  showBack?: boolean;
-  showMenu?: boolean;
+  showBack: boolean;
+  showNavigation: boolean;
+  onNavigation: () => void;
 };
 
-export const Header = ({ showBack = false, showMenu = false }: HeaderProps) => {
+export const Header = ({
+  onNavigation,
+  showBack = false,
+  showNavigation = false,
+}: HeaderProps) => {
   const router = useRouter();
+
   const onBack = () => {
     router.back();
   };
+
   return (
     <div className={styles.header}>
-      <div className={`${!showBack ? "invisible" : ""}`} onClick={onBack}>
+      <div className={`${!showBack && "invisible"}`} onClick={onBack}>
         <ChevronLeftIcon fontSize="large" className="text-secondary" />
       </div>
       <Logo />
-      <HamburgerMenu className={`${!showMenu ? "invisible" : ""}`} />
+      <div
+        className={`${!showNavigation && "invisible"}`}
+        onClick={onNavigation}
+      >
+        <HamburgerMenu />
+      </div>
     </div>
   );
 };

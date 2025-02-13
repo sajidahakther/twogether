@@ -1,17 +1,12 @@
 import React from "react";
 
-type HamburgerMenuProps = {
-  className: string;
-};
-
-const HamburgerMenu = ({ className }: HamburgerMenuProps) => {
+const HamburgerMenu = () => {
   return (
     <svg
       width="25"
       height="19"
       viewBox="0 0 25 19"
       fill="none"
-      className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <mask

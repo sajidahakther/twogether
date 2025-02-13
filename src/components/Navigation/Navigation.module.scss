@@ -1,0 +1,15 @@
+.navigation {
+  @apply fixed top-0 right-0 h-full w-64 bg-stone shadow-lg transform transition-transform duration-300 ease-in-out;
+}
+
+.close {
+  @apply absolute top-5 right-5 text-secondary;
+}
+
+.links {
+  @apply mt-[100px] ml-[30px] space-y-10;
+}
+
+.link {
+  @apply w-full text-left text-base text-primary hover:text-secondary;
+}
