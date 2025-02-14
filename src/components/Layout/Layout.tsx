@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import styles from "./Layout.module.scss";
 import { Navigation } from "../Navigation";

@@ -1,3 +1,7 @@
 .header {
   @apply flex justify-between border-b border-beige items-center px-[30px] py-[10px];
 }
+
+.chevronLeft {
+  @apply text-secondary;
+}

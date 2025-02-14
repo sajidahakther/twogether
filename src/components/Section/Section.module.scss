@@ -1,0 +1,23 @@
+.title {
+  @apply flex justify-between border-b-[1px] border-b-black pb-3 mb-4;
+}
+
+.add {
+  @apply text-secondary;
+}
+
+.text {
+  @apply mb-[50px];
+}
+
+.chevronRight {
+  @apply text-secondary;
+}
+
+.sectionList {
+  @apply space-y-4 mb-[50px];
+}
+
+.sectionItems {
+  @apply flex justify-between cursor-pointer;
+}

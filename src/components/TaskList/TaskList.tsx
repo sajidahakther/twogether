@@ -1,3 +1,5 @@
+"use client";
+
 import { db, auth } from "@/firebase";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
@@ -35,11 +37,7 @@ interface Task {
   isEditing: boolean;
 }
 
-interface TaskListProps {
-  title: string;
-}
-
-export const TaskList = ({ title }: TaskListProps) => {
+export const TaskList = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const tasksCollection = collection(db, "tasks");
   const [newTask, setNewTask] = useState<string>("");
@@ -163,9 +161,6 @@ export const TaskList = ({ title }: TaskListProps) => {
 
   return (
     <div style={{ maxWidth: "400px", margin: "20px auto", padding: "10px" }}>
-      <Typography variant="h4" component="h1" gutterBottom align="center">
-        {title}
-      </Typography>
       <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
         <TextField
           fullWidth

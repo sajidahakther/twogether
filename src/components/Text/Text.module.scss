@@ -1,5 +1,13 @@
 .h1 {
-  @apply text-2xl font-nimbus text-primary mb-10;
+  @apply text-2xl font-nimbus text-primary mb-[45px];
+}
+
+.h2 {
+  @apply text-xl font-nimbus text-primary;
+}
+
+.body {
+  @apply text-black text-base font-apercu;
 }
 
 .error {

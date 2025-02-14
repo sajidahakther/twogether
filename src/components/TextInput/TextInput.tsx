@@ -18,7 +18,7 @@ export const TextInput = ({
   required = false,
 }: TextInputProps) => {
   return (
-    <div className="mb-4">
+    <div className={styles.textInput}>
       <label className={styles.label} htmlFor="input">
         {label}
       </label>
@@ -26,8 +26,8 @@ export const TextInput = ({
         id="input"
         type={type}
         value={value}
-        onChange={onChange}
         required={required}
+        onChange={onChange}
         className={styles.input}
         placeholder={placeholder}
       />

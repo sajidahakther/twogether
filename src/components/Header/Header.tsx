@@ -4,8 +4,8 @@ import React from "react";
 import styles from "./Header.module.scss";
 import { useRouter } from "next/navigation";
 import Logo from "@/app/assets/images/Logo";
+import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import HamburgerMenu from "@/app/assets/images/HamburgerMenu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 type HeaderProps = {
   showBack: boolean;
@@ -27,7 +27,7 @@ export const Header = ({
   return (
     <div className={styles.header}>
       <div className={`${!showBack && "invisible"}`} onClick={onBack}>
-        <ChevronLeftIcon fontSize="large" className="text-secondary" />
+        <ChevronLeft fontSize="large" className={styles.chevronLeft} />
       </div>
       <Logo />
       <div

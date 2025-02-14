@@ -1,0 +1,23 @@
+.overlay {
+  @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50;
+}
+
+.modal {
+  @apply bg-stone rounded-lg shadow-lg w-96;
+}
+
+.title {
+  @apply flex justify-between items-baseline border-b-[1px] border-b-beige p-6 pb-4;
+}
+
+.content {
+  @apply flex flex-col p-6 gap-2;
+}
+
+.buttons {
+  @apply flex justify-between gap-4;
+}
+
+.close {
+  @apply text-secondary;
+}
