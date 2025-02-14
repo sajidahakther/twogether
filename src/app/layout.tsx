@@ -48,7 +48,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#F6F4F0" />
       </head>
       <body
         className={`${(nimbus.className, apercuBold.className, apercuRegular.className)}`}
