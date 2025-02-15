@@ -2,9 +2,9 @@ import React from "react";
 import styles from "./Text.module.scss";
 
 type TextProps = {
-  text: string;
+  variant: string;
   className?: string;
-  variant: "h1" | "error" | string;
+  text: string | undefined;
 };
 
 export const Text = ({ text, variant, className }: TextProps) => {

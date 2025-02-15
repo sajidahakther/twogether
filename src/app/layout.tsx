@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { AuthProvider } from "@/hooks/useAuth";
+import { DynamicInterceptProvider } from "@/hooks/useDynamicIntercept";
 
 const apercuRegular = localFont({
   src: [
@@ -53,7 +54,9 @@ export default function RootLayout({
       <body
         className={`${(nimbus.className, apercuBold.className, apercuRegular.className)}`}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <DynamicInterceptProvider>{children}</DynamicInterceptProvider>
+        </AuthProvider>
       </body>
     </html>
   );
