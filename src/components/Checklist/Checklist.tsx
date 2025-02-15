@@ -37,7 +37,11 @@ interface Task {
   isEditing: boolean;
 }
 
-export const TaskList = () => {
+type ChecklistProps = {
+  listId: string;
+};
+
+export const Checklist = ({ listId }: ChecklistProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const tasksCollection = collection(db, "tasks");
   const [newTask, setNewTask] = useState<string>("");
@@ -59,7 +63,11 @@ export const TaskList = () => {
     if (!userId) return;
 
     const fetchTasks = async () => {
-      const q = query(tasksCollection, where("userId", "==", userId));
+      const q = query(
+        tasksCollection,
+        where("userId", "==", userId),
+        where("listId", "==", listId),
+      );
       const querySnapshot = await getDocs(q);
       const fetchedTasks = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -69,22 +77,23 @@ export const TaskList = () => {
     };
 
     fetchTasks();
-  }, [userId, tasksCollection]);
+  }, [userId, listId, tasksCollection]);
 
   const addTask = useCallback(async () => {
-    if (newTask.trim() && userId) {
+    if (newTask.trim() && userId && listId) {
       const taskData = {
         text: newTask,
         completed: false,
         isEditing: false,
         userId,
+        listId,
       };
-      const docRef = await addDoc(tasksCollection, taskData);
 
+      const docRef = await addDoc(tasksCollection, taskData);
       setTasks((prevTasks) => [{ ...taskData, id: docRef.id }, ...prevTasks]);
       setNewTask("");
     }
-  }, [newTask, userId, tasksCollection]);
+  }, [newTask, userId, listId, tasksCollection]);
 
   const toggleTask = useCallback(
     async (index: number) => {
