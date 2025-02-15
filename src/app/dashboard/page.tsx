@@ -85,7 +85,7 @@ export default function Dashboard() {
 
   const onItemClick = (item: string) => {
     const sectionItem = item.toLowerCase().replace(/\s+/g, "-");
-    router.push(`/${sectionItem}`);
+    router.push(`/list/${sectionItem}`);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

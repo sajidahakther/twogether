@@ -15,8 +15,8 @@ export function DynamicInterceptProvider({
     const { fetch: originalFetch } = window;
     window.fetch = async (...args) => {
       const [resource] = args;
-      if ((resource as URL)?.pathname?.startsWith("/")) {
-        return await originalFetch("/default.txt");
+      if ((resource as URL)?.pathname?.startsWith("/list")) {
+        return await originalFetch("/list/default.txt");
       }
       const response = await originalFetch(...args);
       return response;
