@@ -25,9 +25,9 @@ export const LoginForm: React.FC = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
-    } catch (err) {
-      if (err instanceof FirebaseError) {
-        switch (err.code) {
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
           case "auth/invalid-credential":
             setError("Incorrect password entered. Please try again.");
             break;
@@ -40,7 +40,6 @@ export const LoginForm: React.FC = () => {
       } else {
         setError("An unexpected error occurred.");
       }
-      console.error(err);
     }
   };
 

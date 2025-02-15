@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { db } from "@/firebase";
 import { Text } from "@/components/Text";
 import { useAuth } from "@/hooks/useAuth";
 import { Modal } from "@/components/Modal";
@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { Layout } from "@/components/Layout";
 import { Section } from "@/components/Section";
 import { TextInput } from "@/components/TextInput";
+import React, { useState, useEffect } from "react";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -21,12 +23,28 @@ export default function Dashboard() {
     type: "" as "list" | "note" | "",
   });
 
-  if (loading) return <p>Loading...</p>;
+  useEffect(() => {
+    if (!user) return;
 
-  if (!user) {
-    router.push("/");
-    return null;
-  }
+    const fetchUserItems = async () => {
+      const listsQuery = query(
+        collection(db, "lists"),
+        where("userId", "==", user.uid),
+      );
+      const notesQuery = query(
+        collection(db, "notes"),
+        where("userId", "==", user.uid),
+      );
+
+      const listsSnapshot = await getDocs(listsQuery);
+      const notesSnapshot = await getDocs(notesQuery);
+
+      setLists(listsSnapshot.docs.map((doc) => doc.data().name));
+      setNotes(notesSnapshot.docs.map((doc) => doc.data().name));
+    };
+
+    fetchUserItems();
+  }, [user]);
 
   const openModal = (type: "list" | "note") => {
     setModal({ isOpen: true, type });
@@ -36,14 +54,32 @@ export default function Dashboard() {
     setModal({ isOpen: false, type: "" });
   };
 
-  const handleAddItem = () => {
-    if (modal.type === "list" && listName.trim() !== "") {
-      setLists((prev) => [...prev, listName]);
-      setListName("");
-    } else if (modal.type === "note" && noteName.trim() !== "") {
-      setNotes((prev) => [...prev, noteName]);
-      setNoteName("");
+  const handleAddItem = async () => {
+    if (!user) return;
+
+    const collectionName = modal.type === "list" ? "lists" : "notes";
+    const itemName = modal.type === "list" ? listName : noteName;
+
+    if (itemName.trim() !== "") {
+      try {
+        await addDoc(collection(db, collectionName), {
+          name: itemName,
+          userId: user.uid,
+          createdAt: new Date(),
+        });
+
+        if (modal.type === "list") {
+          setLists((prev) => [...prev, itemName]);
+          setListName("");
+        } else {
+          setNotes((prev) => [...prev, itemName]);
+          setNoteName("");
+        }
+      } catch (error) {
+        console.error("Error adding item: ", error);
+      }
     }
+
     closeModal();
   };
 
@@ -61,6 +97,13 @@ export default function Dashboard() {
     }
   };
 
+  if (loading) return <p>Loading...</p>;
+
+  if (!user) {
+    router.push("/");
+    return null;
+  }
+
   return (
     <Layout showMenu>
       <Text text={`Hello, ${user?.displayName}.`} variant="h1" />
@@ -71,6 +114,7 @@ export default function Dashboard() {
           sectionItems.length > 0
             ? `Continue ${type === "list" ? "listing" : "noting"}...`
             : `Add a ${type}`;
+
         return (
           <div key={type}>
             <Section

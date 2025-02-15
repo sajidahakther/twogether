@@ -2,6 +2,7 @@
 import { auth } from "@/firebase";
 import { Text } from "@/components/Text";
 import { useRouter } from "next/navigation";
+import { FirebaseError } from "firebase/app";
 import { Button } from "@/components/Button";
 import { Layout } from "@/components/Layout";
 import styles from "./SignUpForm.module.scss";
@@ -41,9 +42,18 @@ export const SignUpForm = () => {
       const fullName = `${name} & ${partnerName}`;
       await updateProfile(auth.currentUser!, { displayName: fullName });
       router.push("/dashboard");
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case "auth/weak-password":
+            setError("Password should be atleast 6 characters.");
+            break;
+          case "auth/invalid-email":
+            setError("Please enter a valid email address.");
+            break;
+          default:
+            setError("Failed to sign up. Please try again.");
+        }
       } else {
         setError("An unknown error occurred.");
       }
