@@ -20,11 +20,11 @@ import {
   collection,
 } from "firebase/firestore";
 
-export type Task = {
+export type ListItem = {
   id?: string;
   text: string;
   userId?: string;
-  completed: boolean;
+  checked: boolean;
   isEditing: boolean;
 };
 
@@ -33,10 +33,10 @@ type ChecklistProps = {
 };
 
 export const Checklist = ({ listId }: ChecklistProps) => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTask, setNewTask] = useState<string>("");
+  const [listItems, setListItems] = useState<ListItem[]>([]);
+  const [newListItem, setNewListItem] = useState<string>("");
   const [userId, setUserId] = useState<string | null>(null);
-  const [modal, setModal] = useState({ isOpen: false, taskIndex: -1 });
+  const [modal, setModal] = useState({ isOpen: false, listItemIndex: -1 });
   const [editText, setEditText] = useState("");
 
   useEffect(() => {
@@ -50,91 +50,108 @@ export const Checklist = ({ listId }: ChecklistProps) => {
   useEffect(() => {
     if (!userId) return;
 
-    const fetchTasks = async () => {
+    const fetchListItems = async () => {
       const q = query(
-        collection(db, "tasks"),
+        collection(db, "listItems"),
         where("userId", "==", userId),
         where("listId", "==", listId),
       );
       const querySnapshot = await getDocs(q);
-      const fetchedTasks = querySnapshot.docs.map((doc) => ({
+      const fetchedListItems = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      })) as Task[];
-      setTasks(fetchedTasks);
+      })) as ListItem[];
+
+      const sortedListItems = fetchedListItems.sort(
+        (a, b) => Number(a.checked) - Number(b.checked),
+      );
+
+      setListItems(sortedListItems);
     };
 
-    fetchTasks();
+    fetchListItems();
   }, [userId, listId]);
 
-  const addTask = useCallback(async () => {
-    if (newTask.trim() && userId && listId) {
-      const taskData = {
-        text: newTask,
-        completed: false,
+  const addListItem = useCallback(async () => {
+    if (newListItem.trim() && userId && listId) {
+      const listItemData = {
+        text: newListItem,
+        checked: false,
         isEditing: false,
         userId,
         listId,
       };
 
-      const docRef = await addDoc(collection(db, "tasks"), taskData);
-      setTasks((prevTasks) => [{ ...taskData, id: docRef.id }, ...prevTasks]);
-      setNewTask("");
+      const docRef = await addDoc(collection(db, "listItems"), listItemData);
+      setListItems((prevListItems) => {
+        const updatedList = [
+          { ...listItemData, id: docRef.id },
+          ...prevListItems,
+        ];
+
+        return updatedList.sort(
+          (a, b) => Number(a.checked) - Number(b.checked),
+        );
+      });
+      setNewListItem("");
     }
-  }, [newTask, userId, listId]);
+  }, [newListItem, userId, listId]);
 
-  const toggleTask = useCallback(
-    async (index: number) => {
-      const task = tasks[index];
-      if (!task.id) return;
+  const toggleListItem = useCallback(async (id: string) => {
+    setListItems((prevListItems) => {
+      const updatedList = prevListItems.map((item) => {
+        if (item.id === id) {
+          const updatedItem = { ...item, checked: !item.checked };
+          const listItemRef = doc(db, "listItems", id);
+          updateDoc(listItemRef, { checked: updatedItem.checked });
+          return updatedItem;
+        }
+        return item;
+      });
 
-      const taskRef = doc(db, "tasks", task.id);
-      const updatedCompleted = !task.completed;
-      await updateDoc(taskRef, { completed: updatedCompleted });
-
-      setTasks((prevTasks) =>
-        prevTasks.map((t, i) =>
-          i === index ? { ...t, completed: updatedCompleted } : t,
-        ),
+      const sortedList = [...updatedList].sort(
+        (a, b) => Number(a.checked) - Number(b.checked),
       );
-    },
-    [tasks],
-  );
+      return sortedList;
+    });
+  }, []);
 
-  const deleteTask = useCallback(
+  const deleteListItem = useCallback(
     async (index: number) => {
-      const task = tasks[index];
-      if (!task.id) return;
+      const listItem = listItems[index];
+      if (!listItem.id) return;
 
-      const taskRef = doc(db, "tasks", task.id);
-      await deleteDoc(taskRef);
+      const listItemRef = doc(db, "listItems", listItem.id);
+      await deleteDoc(listItemRef);
 
-      setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+      setListItems((prevListItems) =>
+        prevListItems.filter((_, i) => i !== index),
+      );
 
       closeModal();
     },
-    [tasks],
+    [listItems],
   );
 
   const openModal = (index: number) => {
-    setEditText(tasks[index].text);
-    setModal({ isOpen: true, taskIndex: index });
+    setEditText(listItems[index].text);
+    setModal({ isOpen: true, listItemIndex: index });
   };
 
   const closeModal = () => {
-    setModal({ isOpen: false, taskIndex: -1 });
+    setModal({ isOpen: false, listItemIndex: -1 });
   };
 
   const handleSave = async () => {
-    const index = modal.taskIndex;
-    if (index === -1 || !tasks[index].id) return;
+    const index = modal.listItemIndex;
+    if (index === -1 || !listItems[index].id) return;
 
-    const taskRef = doc(db, "tasks", tasks[index].id!);
-    await updateDoc(taskRef, { text: editText });
+    const listItemRef = doc(db, "listItems", listItems[index].id!);
+    await updateDoc(listItemRef, { text: editText });
 
-    setTasks((prevTasks) =>
-      prevTasks.map((task, i) =>
-        i === index ? { ...task, text: editText } : task,
+    setListItems((prevListItems) =>
+      prevListItems.map((listItem, i) =>
+        i === index ? { ...listItem, text: editText } : listItem,
       ),
     );
 
@@ -144,26 +161,26 @@ export const Checklist = ({ listId }: ChecklistProps) => {
   return (
     <div>
       <AddItemInput
-        value={newTask}
-        onAdd={addTask}
+        value={newListItem}
+        onAdd={addListItem}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setNewTask(e.target.value)
+          setNewListItem(e.target.value)
         }
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter") {
-            addTask();
+            addListItem();
           }
         }}
       />
 
       <div className={styles.container}>
-        {tasks.map((task, index) => (
-          <div key={task.id || index}>
+        {listItems.map((listItem, index) => (
+          <div key={listItem.id}>
             <ChecklistItem
-              task={task}
               index={index}
+              listItem={listItem}
               onMore={() => openModal(index)}
-              onChange={() => toggleTask(index)}
+              onChange={() => listItem.id && toggleListItem(listItem.id)}
             />
           </div>
         ))}
@@ -177,7 +194,7 @@ export const Checklist = ({ listId }: ChecklistProps) => {
           rightButtonLabel="Save"
           leftButtonLabel="Delete"
           onRightButton={handleSave}
-          onLeftButton={() => deleteTask(modal.taskIndex)}
+          onLeftButton={() => deleteListItem(modal.listItemIndex)}
         >
           <TextInput
             label="Item"
