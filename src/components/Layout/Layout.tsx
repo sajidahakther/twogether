@@ -8,10 +8,12 @@ import { Header } from "@/components/Header";
 type LayoutProps = {
   showMenu?: boolean;
   showBack?: boolean;
+  onBack?: () => void;
   children: React.ReactNode;
 };
 
 export const Layout = ({
+  onBack,
   children,
   showBack = false,
   showMenu = false,
@@ -25,6 +27,7 @@ export const Layout = ({
   return (
     <div className={styles.container}>
       <Header
+        onBack={onBack}
         showBack={showBack}
         showNavigation={showMenu}
         onNavigation={toggleNavigation}

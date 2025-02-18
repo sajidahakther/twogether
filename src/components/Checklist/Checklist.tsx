@@ -174,18 +174,20 @@ export const Checklist = ({ listId }: ChecklistProps) => {
         }}
       />
 
-      {listItems.length > 0 ? (<div className={styles.container}>
-        {listItems.map((listItem, index) => (
-          <div key={listItem.id}>
-            <ChecklistItem
-              index={index}
-              listItem={listItem}
-              onMore={() => openModal(index)}
-              onChange={() => listItem.id && toggleListItem(listItem.id)}
-            />
-          </div>
-        ))}
-      </div>) : (
+      {listItems.length > 0 ? (
+        <div className={styles.container}>
+          {listItems.map((listItem, index) => (
+            <div key={listItem.id}>
+              <ChecklistItem
+                index={index}
+                listItem={listItem}
+                onMore={() => openModal(index)}
+                onChange={() => listItem.id && toggleListItem(listItem.id)}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
         <Text
           variant="body"
           className={styles.text}

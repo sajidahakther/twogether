@@ -1,0 +1,11 @@
+.title {
+  @apply flex justify-between;
+}
+
+.more {
+  @apply text-secondary;
+}
+
+.name {
+  @apply capitalize;
+}

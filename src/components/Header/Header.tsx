@@ -9,24 +9,30 @@ import HamburgerMenu from "@/app/assets/images/HamburgerMenu";
 
 type HeaderProps = {
   showBack: boolean;
+  onBack?: () => void;
   showNavigation: boolean;
   onNavigation: () => void;
 };
 
 export const Header = ({
+  onBack,
   onNavigation,
   showBack = false,
   showNavigation = false,
 }: HeaderProps) => {
   const router = useRouter();
 
-  const onBack = () => {
-    router.back();
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      router.back();
+    }
   };
 
   return (
     <div className={styles.header}>
-      <div className={`${!showBack && "invisible"}`} onClick={onBack}>
+      <div className={`${!showBack && "invisible"}`} onClick={handleBack}>
         <ChevronLeft fontSize="large" className={styles.chevronLeft} />
       </div>
       <Logo />

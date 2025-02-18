@@ -35,7 +35,11 @@ export const Section = ({
               className={styles.sectionItems}
               onClick={() => onItemClick(item)}
             >
-              <Text variant="body" text={item} />
+              <Text
+                text={item}
+                variant="body"
+                className={styles.sectionItemText}
+              />
               <ChevronRight fontSize="medium" className={styles.chevronRight} />
             </div>
           ))}
