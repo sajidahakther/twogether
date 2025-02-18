@@ -1,7 +1,35 @@
+.container {
+  @apply pb-2 border-b-[1px] border-b-sage;
+}
+
 .checklistItem {
   @apply flex items-center justify-between gap-[10px];
 }
 
 .more {
   @apply text-secondary;
+}
+
+.url {
+  @apply text-grey text-base underline;
+}
+
+.content {
+  @apply pl-[37px] pb-2 flex flex-col gap-2;
+}
+
+.expand {
+  @apply flex py-2;
+}
+
+.expandText {
+  @apply pl-[37px] pr-1;
+}
+
+.expandIcon {
+  @apply text-secondary;
+}
+
+.link {
+  @apply flex gap-2 text-grey;
 }

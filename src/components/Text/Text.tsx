@@ -8,5 +8,5 @@ type TextProps = {
 };
 
 export const Text = ({ text, variant, className }: TextProps) => {
-  return <p className={`${styles[variant]} ${className}`}>{text}</p>;
+  return <p className={`${className} ${styles[variant]}`}>{text}</p>;
 };

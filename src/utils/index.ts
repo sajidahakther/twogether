@@ -9,3 +9,6 @@ export const formatPathToTitle = (path: string) => {
 export const formatTitleToPath = (title: string) => {
   return title.toLowerCase().replace(/ /g, "-");
 };
+
+export const convertToUrl = (url: string) =>
+  url.startsWith("http") ? url : `https://${url}`;

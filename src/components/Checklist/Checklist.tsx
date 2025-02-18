@@ -24,9 +24,11 @@ import {
 export type ListItem = {
   id?: string;
   text: string;
+  url?: string;
   userId?: string;
   checked: boolean;
   isEditing: boolean;
+  description?: string;
 };
 
 type ChecklistProps = {
@@ -34,11 +36,13 @@ type ChecklistProps = {
 };
 
 export const Checklist = ({ listId }: ChecklistProps) => {
+  const [editURL, setEditURL] = useState<string>("");
+  const [userId, setUserId] = useState<string | null>(null);
   const [listItems, setListItems] = useState<ListItem[]>([]);
   const [newListItem, setNewListItem] = useState<string>("");
-  const [userId, setUserId] = useState<string | null>(null);
+  const [editItemText, setEditItemText] = useState<string>("");
+  const [editDescription, setEditDescription] = useState<string>("");
   const [modal, setModal] = useState({ isOpen: false, listItemIndex: -1 });
-  const [editText, setEditText] = useState("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -135,7 +139,9 @@ export const Checklist = ({ listId }: ChecklistProps) => {
   );
 
   const openModal = (index: number) => {
-    setEditText(listItems[index].text);
+    setEditItemText(listItems[index].text);
+    setEditDescription(listItems[index].description ?? "");
+    setEditURL(listItems[index].url ?? "");
     setModal({ isOpen: true, listItemIndex: index });
   };
 
@@ -148,11 +154,22 @@ export const Checklist = ({ listId }: ChecklistProps) => {
     if (index === -1 || !listItems[index].id) return;
 
     const listItemRef = doc(db, "listItems", listItems[index].id!);
-    await updateDoc(listItemRef, { text: editText });
+    await updateDoc(listItemRef, {
+      text: editItemText,
+      description: editDescription,
+      url: editURL,
+    });
 
     setListItems((prevListItems) =>
       prevListItems.map((listItem, i) =>
-        i === index ? { ...listItem, text: editText } : listItem,
+        i === index
+          ? {
+              ...listItem,
+              text: editItemText,
+              description: editDescription,
+              url: editURL,
+            }
+          : listItem,
       ),
     );
 
@@ -207,11 +224,27 @@ export const Checklist = ({ listId }: ChecklistProps) => {
         >
           <TextInput
             label="Item"
-            value={editText}
             placeholder="Item"
+            value={editItemText}
             className={styles.item}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEditText(e.target.value)
+              setEditItemText(e.target.value)
+            }
+          />
+          <TextInput
+            label="Description"
+            placeholder="Description"
+            value={editDescription}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEditDescription(e.target.value)
+            }
+          />
+          <TextInput
+            label="URL"
+            value={editURL}
+            placeholder="URL"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEditURL(e.target.value)
             }
           />
         </Modal>
