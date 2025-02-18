@@ -1,6 +1,7 @@
 "use client";
 
 import { db, auth } from "@/firebase";
+import { Text } from "@/components/Text";
 import { Modal } from "@/components/Modal";
 import styles from "./Checklist.module.scss";
 import { TextInput } from "@/components/TextInput";
@@ -173,7 +174,7 @@ export const Checklist = ({ listId }: ChecklistProps) => {
         }}
       />
 
-      <div className={styles.container}>
+      {listItems.length > 0 ? (<div className={styles.container}>
         {listItems.map((listItem, index) => (
           <div key={listItem.id}>
             <ChecklistItem
@@ -184,7 +185,13 @@ export const Checklist = ({ listId }: ChecklistProps) => {
             />
           </div>
         ))}
-      </div>
+      </div>) : (
+        <Text
+          variant="body"
+          className={styles.text}
+          text={`Looks like you haven’t added any items to your checklist yet — ready to add your first?`}
+        />
+      )}
 
       {modal.isOpen && (
         <Modal
