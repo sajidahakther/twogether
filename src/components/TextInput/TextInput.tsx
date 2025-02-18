@@ -4,6 +4,7 @@ type TextInputProps = {
   label: string;
   value: string;
   type?: string;
+  className?: string;
   required?: boolean;
   placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -13,6 +14,7 @@ export const TextInput = ({
   label,
   value,
   onChange,
+  className,
   placeholder,
   type = "text",
   required = false,
@@ -28,8 +30,8 @@ export const TextInput = ({
         value={value}
         required={required}
         onChange={onChange}
-        className={styles.input}
         placeholder={placeholder}
+        className={`${className} ${styles.input}`}
       />
     </div>
   );

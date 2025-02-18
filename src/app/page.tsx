@@ -29,7 +29,7 @@ export default function Home() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="bg-beige flex flex-col items-center">
+    <div className="bg-stone flex flex-col items-center">
       <div className="max-w-[430px] flex flex-col bg-stone h-screen md:h-full pb-[50px] justify-center">
         <ShapeCurls />
         <Carousel />

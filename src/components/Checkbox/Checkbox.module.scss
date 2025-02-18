@@ -1,0 +1,15 @@
+.container {
+  @apply flex items-center;
+}
+
+.input {
+  @apply flex items-center cursor-pointer capitalize text-black;
+}
+
+.checkbox {
+  @apply mr-3 w-6 h-6 border-2 border-secondary rounded-full flex items-center justify-center transition-all;
+}
+
+.label {
+  @apply capitalize text-lg text-black;
+}

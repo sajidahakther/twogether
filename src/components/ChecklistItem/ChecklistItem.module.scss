@@ -1,0 +1,7 @@
+.checklistItem {
+  @apply flex items-center justify-between gap-[10px];
+}
+
+.more {
+  @apply text-secondary;
+}

@@ -1,0 +1,7 @@
+.addItemInput {
+  @apply flex mb-4 border-b-[1px] border-b-black pb-2;
+}
+
+.input {
+  @apply w-full bg-stone text-black text-xl placeholder:text-grey focus:outline-none;
+}

@@ -29,7 +29,7 @@ export const Section = ({
       </div>
       {sectionItems.length > 0 ? (
         <div className={styles.sectionList}>
-          {sectionItems.map((item: string, index: number) => (
+          {[...sectionItems].reverse().map((item: string, index: number) => (
             <div
               key={index}
               className={styles.sectionItems}
